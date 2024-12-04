@@ -1,0 +1,144 @@
+* {
+    box-sizing: border-box;
+    font-weight: 700;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: hsl(0, 4%, 64%);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 95%; 
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    text-align: center;
+    color: #333;
+    font-size: 3rem;
+  }
+  
+  .date-picker {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    height: 3rem;
+  
+  }
+  
+  .date-picker label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  #student-list {
+    /* display: grid; */
+    /* grid-template-columns: repeat(2, 1fr); */
+    display: flex;
+    flex-direction: column ;
+    flex-wrap: wrap;
+    gap: 1rem 5rem;
+    font-size: 1.3rem;
+    font-weight: 900; 
+    margin-bottom: 20px;
+    border: 1px solid red;
+    /* height: 65rem; */
+    padding: 1rem;
+
+    max-width: 40rem;
+    margin: auto;
+  }
+  
+  .student-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  
+  .student-item label {
+    margin-right: 10px;
+  }
+  
+  #attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #attendance-table th, #attendance-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .controls {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    background-color: hsl(236, 83%, 25%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 20rem;
+    font-size: 1.5rem;
+    
+  }
+  
+  .btn:hover {
+    background-color: hsl(236, 83%, 50%);
+  }
+  
+  .submit-btn {
+    width: 40%;
+    padding: 15px;
+    background-color: hsl(236, 83%, 25%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 30%;
+    font-size: 2rem;
+    font-weight: 600;
+    border-radius: 5px;
+  }
+  
+  .submit-btn:hover {
+    background-color: hsl(236, 83%, 50%);
+  }
+
+.date-picker > label {
+  font-size: 2rem;
+}  
+
+input[type=radio]{
+     width: 1.5rem;
+     height: 1.5rem;
+}
+
+@media (max-width: 800px) {
+  #student-list {
+    display: flex;
+    flex-flow: column;
+    align-items: start;
+    height: auto;
+  }
+  .student-item {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: flex-end;
+    gap: 5rem;
+    align-content: space-between;
+  }
+}
+
+ 

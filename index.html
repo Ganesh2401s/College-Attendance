@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Microbiology Class Attendance System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Microbiology Class Attendance 2024-25</h1>
+
+    <!-- Date Selector -->
+    <div class="date-picker">
+      <label for="attendance-date">Today's Date:</label>
+      <input type="date" id="attendance-date">
+    </div>
+
+    <!-- Attendance Form -->
+    <form id="attendance-form">
+      <h2>Mark Attendance</h2>
+      <div id="student-list"></div> 
+      <button type="submit" class="submit-btn">Save Attendance</button>
+    </form>
+
+  
+  
+
+    <!-- Attendance Table -->
+    <h2>Attendance Records</h2>
+    <table id="attendance-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Student Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- Data goes here -->
+      </tbody>
+    </table>
+
+    <!-- Buttons for extra features -->
+    <div class="controls">
+      <button id="download-btn" class="btn">Download CSV</button>
+    </div> 
+
+       <!-- Add this below the "Save Attendance" and "Download CSV" buttons -->
+<div class="controls">
+    <button id="reset-btn" class="btn red">Reset Attendance for Selected Date</button>
+  </div>
+  </div>
+
+  <script> 
+    const students = [ 
+    "Abhinav","Akriti Arya" ,"Anandita Srivastav","Archana Kumari",
+    "Deepanshu Sabharwal","Devanshi Yadav","Ganesh Singh","Harshit Matoliya","Harshit Saxena","Ishita","Jasmine Prasad","Kasturi Rashmi Basumatary","Lavneet Kataria","Mansi Sagar","Muskan Thapa","Nandini Das","Nikhil","Noora Sulaiman","Pranjal","Pratham Kumar Sah","Rhishav Basak",
+    "Rhitam Basak","Sakshi","Sana Alam","Sanskar Anand Singh","Saruchi Yadav","Sayan Mandal","Shivanshi Pandey","Shraddha Yadav","Soubhagya Sindhu",
+    "Spandan Chakroborty","Sugandha Kumari","Tanisha Das","Tanushka Chaudhary","Vanya Jain","Vinilda Vincent","Himanshu K. Yadav","Yathartha Singh","Himanshu Kumar","Sanjaya Srivastava","Krishna Parmar","Sandeep"
+ ]
+const attendanceDate = document.getElementById('attendance-date');
+const today = new Date().toISOString().split('T')[0];
+attendanceDate.value = today;
+
+rollNumber = ['2406001', '2406004', '2406005', '2406008',
+  '2406010', '2406011', '2406013', '2406014',
+  '2406015', '2406017', '2406018', '2406020',
+  '2406022', '2406023', '2406024', '2406025',
+  '2406027', '2406028', '2406029', '2406030',
+  '2406033', '2406034', '2406036', '2406037',
+  '2406038', '2406039', '2406040', '2406041',
+  '2406042', '2406043', '2406044', '2406045',
+  '2406046', '2406047', '2406049', '2406050',
+  '2406053', '2406054', '2406055', '2406056',
+  '2406057', '2406058']
+// const students = {
+//     "Abhinav": 2406001,
+//     "Akriti Arya" : 2406004,
+//     "Anandita Srivastav" : 2406005,
+//     "Archana Kumari" : 2406008,
+//     "Deepanshu Sabharwal": 2406010,
+//     "Devanshi Yadav": 2406011,
+//     "Ganesh Singh": 2406013,
+//     "Harshit Matoliya" : 2406014, 
+//     "Harshit Saxena": 2406015,
+//     "Ishita": 2406017,
+//     "Jasmine Prasad": 2406018,
+//     "Kasturi Rashmi Basumatary": 2406020,
+//     "Lavneet Kataria": 2406022,
+//     "Mansi Sagar" : 2406023 ,
+//     "Muskan Thapa" : 2406024 ,
+//     "Nandini Das" : 2406025 ,
+//     "Nikhil" : 2406027 ,
+//     "Noora Sulaiman" : 2406028 ,
+//     "Pranjal" : 2406029 ,
+//     "Pratham Kumar Sah" : 2406030 ,
+//     "Rhishav Basak" : 2406033 ,
+//     "Rhitam Basak" : 2406034 ,
+//     "Sakshi" : 2406036  ,
+//     "Sana Alam" : 2406037  ,
+//     "Sanskar Anand Singh" : 2406038  ,
+//     "Saruchi Yadav" : 2406039  ,
+//     "Sayan Mandal" : 2406040  ,
+//     "Shivanshi Pandey" : 2406041  ,
+//     "Shraddha Yadav" : 2406042  ,
+//     "Soubhagya Sindhu" : 2406043  ,
+//     "Spandan Chakroborty" : 2406044  ,
+//     "Sugandha Kumari" : 2406045  ,
+//     "Tanisha Das" : 2406046  ,
+//     "Tanushka Chaudhary" : 2406047  ,
+//     "Vanya Jain" : 2406049  ,
+//     "Vinilda Vincent" : 2406050  ,
+//     "Himanshu Kumar Yadav" : 2406053  ,
+//     "Yathartha Singh" : 2406054  ,
+//     "Himanshu Kumar" : 2406055  ,
+//     "Sanjaya Srivastava" : 2406056  ,
+//     "Krishna Parmar" : 2406057  ,
+//     "Sandeep" : 2406058  ,
+    
+// };
+  
+
+
+  // DOM Elements
+  const studentList = document.getElementById('student-list');
+  const attendanceForm = document.getElementById('attendance-form');
+  const attendanceTableBody = document.querySelector('#attendance-table tbody');
+  
+  // Load student list
+  document.addEventListener('DOMContentLoaded', function () {
+    loadStudents();
+    loadAttendanceFromStorage();
+  });
+  
+  // Create student attendance radio buttons (Present/Absent)
+  function loadStudents() {
+    studentList.innerHTML = ''; // Clear previous content if reloaded
+    students.forEach((student, index) => {
+      const studentItem = document.createElement('div');
+      studentItem.classList.add('student-item');
+  
+      studentItem.innerHTML = `
+        <label for="student-${index}">${student}</label>
+        <div>
+          <label>
+            <input type="radio" name="attendance-${index}" value="Present" checked>
+            P
+          </label>
+          <label>
+            <input type="radio" name="attendance-${index}" value="Absent">
+            A
+          </label>
+        </div>
+      `;
+      
+      studentList.appendChild(studentItem);
+    });
+  }
+  
+  // Handle attendance form submission
+  attendanceForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    
+    const selectedDate = attendanceDate.value;
+    if (!selectedDate) {
+      alert("Please select a date.");
+      return;
+    }
+    
+    const attendanceData = [];
+    
+    // Gather attendance data by checking which radio button is selected
+    students.forEach((student, index) => {
+      const status = document.querySelector(`input[name="attendance-${index}"]:checked`).value;
+      attendanceData.push({ date: selectedDate, student: student, status: status });
+    });
+    
+    // Save attendance data to localStorage
+    saveAttendanceToStorage(attendanceData);
+    
+    // Reload table
+    loadAttendanceFromStorage();
+  });
+  
+  // Save attendance to localStorage
+  function saveAttendanceToStorage(attendanceData) {
+    let storedData = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
+    storedData = storedData.concat(attendanceData);
+    localStorage.setItem('attendanceRecords', JSON.stringify(storedData));
+  }
+  
+  // Load attendance from localStorage
+  function loadAttendanceFromStorage() {
+    const storedData = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
+    attendanceTableBody.innerHTML = '';
+    
+    storedData.forEach(record => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${record.date}</td>
+        <td>${record.student}</td>
+        <td>${record.status}</td>
+      `;
+      attendanceTableBody.appendChild(row);
+    });
+  }
+  
+  // Reset attendance data for the selected date
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    const selectedDate = attendanceDate.value;
+    
+    if (!selectedDate) {
+      alert("Please select a date to reset.");
+      return;
+    }
+    
+    // Get current attendance records from localStorage
+    let storedData = JSON.parse(localStorage.getItem ('attendanceRecords')) || [];
+  
+    // Filter out records that are NOT for the selected date
+    const updatedData = storedData.filter(record => record.date !== selectedDate);
+  
+    // Check if any records were removed (if the date existed)
+    if (updatedData.length === storedData.length) {
+      alert("No attendance records found for the selected date.");
+      return;
+    }
+  
+    // Save the updated data back to localStorage
+    localStorage.setItem('attendanceRecords', JSON.stringify(updatedData));
+  
+    // Reload the attendance table to reflect the changes
+    loadAttendanceFromStorage();
+  
+    alert(`Attendance for ${selectedDate} has been reset.`);
+  });
+  
+  // Download CSV file
+  document.getElementById('download-btn').addEventListener('click', function () {
+    const storedData = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
+    
+    if (storedData.length === 0) {
+      alert("No attendance data to download.");
+      return;
+    }
+    
+    const csvContent = "data:text/csv;charset=utf-8,"
+      + storedData.map(e => `${e.date},${e.student},${e.status}`).join("\n");
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "attendance_records.csv");
+    document.body.appendChild(link);
+    
+    link.click();
+    document.body.removeChild(link);
+  });
+  
+  </script>
+</body>
+</html>
